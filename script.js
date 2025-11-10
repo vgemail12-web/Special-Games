@@ -1,14 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  // -------------------------------
-  // 🖱️ Grab HTML elements
-  // -------------------------------
   const list = document.getElementById("game-list");
   const viewer = document.getElementById("game-viewer");
 
-  // -------------------------------
-  // 🔘 Initial games with thumbnails and inline Rainbow Snake
-  // -------------------------------
   let games = [
     { name: "Snake", type: "file", file: "snake.html", thumbnail: "images/snake.png" },
     { name: "Pong", type: "file", file: "pong.html", thumbnail: "images/pong.png" },
@@ -51,53 +45,37 @@ requestAnimationFrame(gameLoop);
     }
   ];
 
-  // -------------------------------
-  // 🖍️ Create a game card (thumbnail + play + remove)
-  // -------------------------------
   function createGameCard(game) {
     const card = document.createElement("div");
-    card.style.background = "#1c1c1c";
-    card.style.borderRadius = "10px";
-    card.style.padding = "10px";
-    card.style.textAlign = "center";
-    card.style.marginBottom = "10px";
 
     // Thumbnail
     if(game.thumbnail){
       const img = document.createElement("img");
       img.src = game.thumbnail;
-      img.style.width = "100%";
-      img.style.borderRadius = "8px";
       card.appendChild(img);
     }
 
     // Game title
     const title = document.createElement("div");
     title.textContent = game.name;
-    title.style.margin = "5px 0";
-    title.style.fontWeight = "bold";
+    title.style.marginBottom = "5px";
     card.appendChild(title);
 
     // Play button
     const playBtn = document.createElement("button");
     playBtn.textContent = "Play";
-    playBtn.style.width = "100%";
     playBtn.onclick = () => {
       if(game.type==="inline"){
         viewer.srcdoc = game.code;
-      } else if(game.file.startsWith("http")){
-        viewer.src = game.file;
       } else {
         viewer.src = `games/${game.file}`;
       }
     };
     card.appendChild(playBtn);
 
-    // Remove button (session only)
+    // Remove button
     const removeBtn = document.createElement("button");
     removeBtn.textContent = "Remove";
-    removeBtn.style.width = "100%";
-    removeBtn.style.marginTop = "5px";
     removeBtn.onclick = () => {
       const index = games.findIndex(g => g.name === game.name);
       if(index !== -1){
@@ -110,26 +88,15 @@ requestAnimationFrame(gameLoop);
     list.appendChild(card);
   }
 
-  // -------------------------------
-  // 🏁 Load all games
-  // -------------------------------
   function loadGames() {
     list.innerHTML = "";
     games.forEach(createGameCard);
     list.appendChild(addGameBtn);
   }
 
-  // -------------------------------
-  // ➕ Add New Game Button with password
-  // -------------------------------
+  // Add Game button with password
   const addGameBtn = document.createElement("button");
   addGameBtn.textContent = "➕ Add New Game";
-  addGameBtn.style.background = "#444";
-  addGameBtn.style.color = "#fff";
-  addGameBtn.style.width = "100%";
-  addGameBtn.style.marginTop = "10px";
-  addGameBtn.style.padding = "0.8em";
-
   addGameBtn.onclick = () => {
     const password = prompt("Enter password to add a new game:");
     if(password !== "2012"){
@@ -137,28 +104,24 @@ requestAnimationFrame(gameLoop);
       return;
     }
 
-    const name = prompt("Enter the game name:");
-    const file = prompt("Enter the HTML file name (in games/ folder or leave blank for inline):");
-    const thumb = prompt("Enter thumbnail file path (optional, leave blank if none):");
-    const code = prompt("Paste the HTML code here if you want inline game (optional):");
+    const name = prompt("Enter game name:");
+    const file = prompt("Enter HTML file (or leave blank for inline):");
+    const thumb = prompt("Thumbnail path (optional):");
+    const code = prompt("Paste HTML code for inline game (optional):");
 
     if(name){
-      const newGame = { name, thumbnail: thumb || "", file, type: code ? "inline" : "file", code: code || "" };
+      const newGame = { name, thumbnail: thumb||"", file, type: code?"inline":"file", code: code||"" };
       games.push(newGame);
       loadGames();
       alert(`Game "${name}" added!`);
     }
   };
 
-  // -------------------------------
-  // 📝 Default iframe message
-  // -------------------------------
+  // Default iframe message
   viewer.srcdoc = `<body style="display:flex;justify-content:center;align-items:center;height:100%;background:#000;color:white;font-family:sans-serif;">
   <h2>Select a game from the list!</h2></body>`;
 
-  // -------------------------------
   // Initial load
-  // -------------------------------
   loadGames();
 
 }); 
