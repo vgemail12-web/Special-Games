@@ -13,3 +13,5 @@ games.forEach(game => {
   card.onclick = () => window.location.href = game.file;
   gameList.appendChild(card);
 }); 
+
+{ title: "Snake", file: "games/snake.html", thumbnail: "images/snake.png" } 
