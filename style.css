@@ -31,9 +31,10 @@ main {
   width: 250px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 }
 
+/* Each game card */
 #game-list div {
   display: flex;
   flex-direction: column;
@@ -43,19 +44,26 @@ main {
   text-align: center;
 }
 
+/* Thumbnail image */
 #game-list img {
   width: 100%;
   border-radius: 8px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
-/* Buttons */
+/* Game title */
+#game-list div > div {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Buttons stacked nicely */
 #game-list button {
   padding: 10px;
   border: none;
   border-radius: 5px;
-  background: #ffffff; /* white buttons */
-  color: #000000;      /* black text */
+  background: #ffffff;
+  color: #000000;
   cursor: pointer;
   font-weight: bold;
   transition: all 0.2s;
@@ -77,4 +85,5 @@ main {
   width: 100%;
   height: 100%;
   border: none;
+  transition: all 0.3s ease;
 } 
